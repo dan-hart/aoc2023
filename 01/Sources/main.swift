@@ -1020,7 +1020,7 @@ let number = Reference(Substring.self)
 let regex = Regex {
     Capture(as: number) {
         ChoiceOf {
-            One(.digit)
+            ("1"..."9")
             "one"
             "two"
             "three"
@@ -1033,11 +1033,9 @@ let regex = Regex {
         }
     }
 }
-.anchorsMatchLineEndings()
 .ignoresCase()
 
-let lines = input.split(separator: "\n")
-let digits = lines.map { line in
+func convertToNumber(using line: String) -> Int {
     let numbersWithWords = line.matches(of: regex).map { match in
         "\(match[number])"
     }
@@ -1056,8 +1054,18 @@ let digits = lines.map { line in
         default: values.append(digitOrWord)
         }
     }
-    let numberAsString = "\(values.first ?? "0")\(values.last ?? "0")"
-    return Int(numberAsString) ?? 0
+    if let first = Int(values.first ?? "0"), let last = Int(values.last ?? "0") {
+        return (first * 10) + last
+    } else {
+        print("Could not find first and last value in \(values)")
+        return 0
+    }
+}
+
+let lines = input.split(separator: "\n")
+let digits = lines.map { line in
+    let number = convertToNumber(using: "\(line)")
+    return number
 }
 
 let sum = digits.reduce(0, +)
