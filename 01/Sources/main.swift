@@ -1,6 +1,8 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
+import RegexBuilder
+
 let input = """
 sdpgz3five4seven6fiveh
 876mbxbrntsfm
@@ -1004,10 +1006,57 @@ nsbtggzgjx3eighttpkhkvknpsqxsevenvh8
 1sevenseven7ld
 """
 
+let testString = """
+two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen
+"""
+
+let number = Reference(Substring.self)
+let regex = Regex {
+    Capture(as: number) {
+        ChoiceOf {
+            One(.digit)
+            "one"
+            "two"
+            "three"
+            "four"
+            "five"
+            "six"
+            "seven"
+            "eight"
+            "nine"
+        }
+    }
+}
+.anchorsMatchLineEndings()
+.ignoresCase()
+
 let lines = input.split(separator: "\n")
 let digits = lines.map { line in
-    let numbersOnLine = line.filter { $0.isNumber }
-    let numberAsString = "\(numbersOnLine.first ?? "0")\(numbersOnLine.last ?? "0")"
+    let numbersWithWords = line.matches(of: regex).map { match in
+        "\(match[number])"
+    }
+    var values = [String]()
+    for digitOrWord in numbersWithWords {
+        switch digitOrWord {
+        case "one": values.append("1")
+        case "two": values.append("2")
+        case "three": values.append("3")
+        case "four": values.append("4")
+        case "five": values.append("5")
+        case "six": values.append("6")
+        case "seven": values.append("7")
+        case "eight": values.append("8")
+        case "nine": values.append("9")
+        default: values.append(digitOrWord)
+        }
+    }
+    let numberAsString = "\(values.first ?? "0")\(values.last ?? "0")"
     return Int(numberAsString) ?? 0
 }
 
