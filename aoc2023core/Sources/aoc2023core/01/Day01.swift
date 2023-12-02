@@ -22,6 +22,10 @@ public class Day01: Challenge {
         let sum = digits.reduce(0, +)
         print("result: \(sum)")
     }
+    
+    let digitWords = [
+        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
+    ]
 
     public func convertToNumber(using line: String) -> Int {
         let number = Reference(Substring.self)
@@ -43,7 +47,15 @@ public class Day01: Challenge {
         }
         .ignoresCase()
         
-        let numbersWithWords = line.matches(of: regex).map { match in
+        var correctedLine = line
+        for word in digitWords {
+            guard let firstLetter = word.first, let lastLetter = word.last else {
+                continue
+            }
+            correctedLine = correctedLine.replacingOccurrences(of: word, with: "\(firstLetter)\(word)\(lastLetter)")
+        }
+        
+        let numbersWithWords = correctedLine.matches(of: regex).map { match in
             "\(match[number])"
         }
         var values = [String]()
