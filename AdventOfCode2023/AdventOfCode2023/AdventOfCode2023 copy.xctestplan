@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "F44C9BDC-8C38-4617-B5A9-E5A1FF8343E5",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:..\/aoc2023core",
+        "identifier" : "aoc2023coreTests",
+        "name" : "aoc2023coreTests"
+      }
+    }
+  ],
+  "version" : 1
+}

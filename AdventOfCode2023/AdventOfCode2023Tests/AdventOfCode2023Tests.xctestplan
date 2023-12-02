@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "7B4882E0-0778-4E47-B421-3CC61064D4D6",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdventOfCode2023.xcodeproj",
+        "identifier" : "5212D1322B1BD41300FBB209",
+        "name" : "AdventOfCode2023Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/aoc2023core",
+        "identifier" : "aoc2023coreTests",
+        "name" : "aoc2023coreTests"
+      }
+    }
+  ],
+  "version" : 1
+}
