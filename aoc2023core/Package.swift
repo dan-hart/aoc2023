@@ -14,11 +14,15 @@ let package = Package(
             name: "aoc2023core",
             targets: ["aoc2023core"]),
     ],
+    dependencies: [
+        // Dependencies declare other packages that this package depends on.
+        .package(url: "https://github.com/pointfreeco/swift-parsing", from: "0.13.0"),
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "aoc2023core"),
+            name: "aoc2023core", dependencies: ["Parsing"]),
         .testTarget(
             name: "aoc2023coreTests",
             dependencies: ["aoc2023core"]),
