@@ -14,7 +14,7 @@ public protocol Challenge {
 
 public extension Challenge {
     func loadInput() -> [String] {
-        return try! String(contentsOfFile: ("~/Desktop/input.txt" as NSString).expandingTildeInPath)
+        return try! String(contentsOfFile: ("~/input.txt" as NSString).expandingTildeInPath)
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .components(separatedBy: .newlines)
     }
