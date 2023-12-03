@@ -78,6 +78,44 @@ public class Day02: Challenge {
             }
             return localIsPossible
         }
+        
+        public func getMinimum(forColor: Day02CubeColor) -> Int {
+            var minimum = Int.max
+            for set in sets {
+                for cube in set.cubes where cube.color == forColor {
+                    if cube.count < minimum {
+                        minimum = cube.count
+                    }
+                }
+            }
+            return minimum
+        }
+        
+        public func getMaximum(forColor: Day02CubeColor) -> Int {
+            var maximum = Int.min
+            for set in sets {
+                for cube in set.cubes where cube.color == forColor {
+                    if cube.count > maximum {
+                        maximum = cube.count
+                    }
+                }
+            }
+            return maximum
+        }
+        
+        // Part 2: Minimum number of cubes
+        func getMinimumPossibleForValidGame() -> (Day02Cube, Day02Cube, Day02Cube)? {
+            let minimumRed = getMaximum(forColor: .red)
+            let minimumGreen = getMaximum(forColor: .green)
+            let minimumBlue = getMaximum(forColor: .blue)
+            
+            return (Day02Cube(color: .red, count: minimumRed), Day02Cube(color: .green, count: minimumGreen), Day02Cube(color: .blue, count: minimumBlue))
+        }
+        
+        func getPowerFromMinimumPossibleForValidGame() -> Int {
+            guard let cubes = getMinimumPossibleForValidGame() else { return 0 }
+            return cubes.0.count * cubes.1.count * cubes.2.count
+        }
     }
     
     public struct Day02Cube: Codable {
@@ -114,6 +152,7 @@ public class Day02: Challenge {
         }
         
         var total = 0
+        var powerTotal = 0
         for game in games {
             if game?.isPossible ?? false {
                 guard let gameNumber = game?.number else {
@@ -122,8 +161,10 @@ public class Day02: Challenge {
                 }
                 total += gameNumber
             }
+            powerTotal += game?.getPowerFromMinimumPossibleForValidGame() ?? 0
         }
         
-        print("total: \(total)")
+        print("part 01 total: \(total)")
+        print("part 02 total: \(powerTotal)")
     }
 }
