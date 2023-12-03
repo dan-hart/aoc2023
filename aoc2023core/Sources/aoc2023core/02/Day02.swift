@@ -9,8 +9,10 @@ import Foundation
 import Parsing
 import RegexBuilder
 
-class Day02: Challenge {
-    var name: String = "\(Day02.self)"
+public class Day02: Challenge {
+    public var name: String = "\(Day02.self)"
+    
+    public init() {}
     
     public enum Day02CubeColor: String, CaseIterable, Codable, Hashable {
         case red = "Red"
@@ -29,11 +31,53 @@ class Day02: Challenge {
     
     public struct Day02Set: Codable {
         var cubes: [Day02Cube]
+        
+        public func total(forColor: Day02CubeColor) -> Int {
+            var total = 0
+            for cube in cubes {
+                if cube.color == forColor {
+                    total += cube.count
+                }
+            }
+            return total
+        }
+        
+        public func isPossible(forRedCount: Int, forGreenCount: Int, forBlueCount: Int) -> Bool {
+            let redTotal = total(forColor: .red)
+            let greenTotal = total(forColor: .green)
+            let blueTotal = total(forColor: .blue)
+            
+            let isSetPossible = (redTotal <= forRedCount && greenTotal <= forGreenCount && blueTotal <= forBlueCount)
+            return isSetPossible
+        }
     }
     
     public struct Day02Game: Codable {
         var number: Int
         var sets: [Day02Set]
+        
+        public func total(forColor: Day02CubeColor) -> Int {
+            var total = 0
+            for set in sets {
+                for cube in set.cubes {
+                    if cube.color == forColor {
+                        total += cube.count
+                    }
+                }
+            }
+            return total
+        }
+        
+        // Part 1: Is game possible
+        var isPossible: Bool {
+            var localIsPossible = true
+            for set in sets {
+                if set.isPossible(forRedCount: 12, forGreenCount: 13, forBlueCount: 14) == false {
+                    localIsPossible = false
+                }
+            }
+            return localIsPossible
+        }
     }
     
     public struct Day02Cube: Codable {
@@ -64,6 +108,22 @@ class Day02: Challenge {
         return Day02Game(number: gameNumber, sets: setObjects)
     }
     
-    func run(with input: [String]) {
+    public func run(with input: [String]) {
+        let games = input.map { line in
+            parseToGame(from: line)
+        }
+        
+        var total = 0
+        for game in games {
+            if game?.isPossible ?? false {
+                guard let gameNumber = game?.number else {
+                    print("Game number not found")
+                    continue
+                }
+                total += gameNumber
+            }
+        }
+        
+        print("total: \(total)")
     }
 }
