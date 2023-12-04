@@ -8,7 +8,7 @@
 import Foundation
 import aoc2023core
 
-let challenge = Day03()
+let challenge = Day04()
 
 let input = challenge.loadInput()
 
