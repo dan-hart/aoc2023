@@ -29,6 +29,8 @@ public struct Day04Card: Hashable {
         }
         return totalPoints
     }
+    
+    var copyCount = 1
 }
 
 public class Day04: Challenge {
@@ -64,12 +66,26 @@ public class Day04: Challenge {
         }
     }
 
+    public func calculateInstanceCount(for cards: inout [Day04Card]) {
+        for i in 0..<cards.count {
+            let card = cards[i]
+            let winningCount = card.countOfWinningNumbers
+            if winningCount > 0 {
+                for _ in 0..<card.copyCount {
+                    for j in 1...winningCount {
+                        cards[i + j].copyCount += 1
+                    }
+                }
+            }
+        }
+    }
     
     public func run(with input: [String]) {
-        let cards = input.map { line in
+        var cards = input.map { line in
             parseCard(line)
         }
-        print(cards.totalPoints)
+        calculateInstanceCount(for: &cards)
+        print(cards.totalInstanceCount)
     }
 }
 
@@ -78,6 +94,14 @@ extension Array where Element == Day04Card {
         var total = 0
         for card in self {
             total += card.points
+        }
+        return total
+    }
+    
+    public var totalInstanceCount: Int {
+        var total = 0
+        for card in self {
+            total += card.copyCount
         }
         return total
     }
