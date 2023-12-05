@@ -54,13 +54,11 @@ public struct Day05Range: Hashable, Equatable {
     }
     
     public func isInRange(sourceNumber: Int) -> Bool {
-        return (sourceRangeStart...sourceRangeEnd).contains(sourceNumber)
+        return (sourceRangeStart..<sourceRangeEnd).contains(sourceNumber)
     }
     
     public func convert(sourceNumber: Int) -> Int {
-        let adjustment = sourceNumber - sourceRangeStart
-        let calculatedDestination = destinationRangeStart + adjustment
-        return calculatedDestination
+        destinationRangeStart + sourceNumber - sourceRangeStart
     }
 }
 
