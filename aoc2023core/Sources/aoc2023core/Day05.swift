@@ -14,33 +14,21 @@ public struct Day05Almanac: Hashable {
     
     public let pairs: [Day05SeedPair]
     
-    public func convert(sourceNumber: Int, debugPrint: Bool = false) -> Int {
-        if debugPrint {
-            print("Converting Seed \(sourceNumber)")
-        }
-        
+    public func convert(sourceNumber: Int) -> Int {
         var value = sourceNumber
-        for (index, lookup) in lookups.enumerated() {
-            let beforeChange = value
-            value = lookup.convertIfNeeded(sourceNumber: value)
-            if debugPrint {
-                print("Lookup \(index): \(beforeChange) -> \(value)")
-            }
-        }
-        
-        if debugPrint {
-            print("Final Value: \(value)")
+        for lookup in lookups {
+            value = lookup.convert(sourceNumber: value)
         }
         
         return value
     }
     
-    public func printDebugDescription() {
-        print("Almanac: seed numbers: \(initialSeedNumbers.map({"\($0), "})), Lookups:")
-        for lookup in lookups {
-            lookup.printDebugDescription()
-        }
-    }
+//    public func printDebugDescription() {
+//        print("Almanac: seed numbers: \(initialSeedNumbers.map({"\($0), "})), Lookups:")
+//        for lookup in lookups {
+//            lookup.printDebugDescription()
+//        }
+//    }
 }
 
 public struct Day05SeedPair: Hashable {
@@ -58,12 +46,7 @@ public struct Day05SeedPair: Hashable {
 public struct Day05Lookup: Hashable {
     public let ranges: [Day05Range]
     
-    public func convertIfNeeded(sourceNumber: Int) -> Int {
-        let isInRanges = ranges.map({$0.isInRange(sourceNumber: sourceNumber)}).filter({$0})
-        if isInRanges.count > 1 {
-            print("Multiple ranges found for \(sourceNumber)")
-        }
-        
+    public func convert(sourceNumber: Int) -> Int {
         let foundRange: Day05Range? = ranges.first { range in
             range.isInRange(sourceNumber: sourceNumber)
         }
@@ -71,12 +54,12 @@ public struct Day05Lookup: Hashable {
         return foundRange?.convert(sourceNumber: sourceNumber) ?? sourceNumber
     }
     
-    public func printDebugDescription() {
-        print("\n\tLookup: \(ranges.count) ranges:")
-        for range in ranges {
-            range.printDebugDescription()
-        }
-    }
+//    public func printDebugDescription() {
+//        print("\n\tLookup: \(ranges.count) ranges:")
+//        for range in ranges {
+//            range.printDebugDescription()
+//        }
+//    }
 }
 
 public struct Day05Range: Hashable {
@@ -102,9 +85,9 @@ public struct Day05Range: Hashable {
         return calculatedDestination
     }
     
-    public func printDebugDescription() {
-        print("\n\t\tRange: \(sourceRangeStart) -> \(destinationRangeStart) for \(rangeLength)")
-    }
+//    public func printDebugDescription() {
+//        print("\n\t\tRange: \(sourceRangeStart) -> \(destinationRangeStart) for \(rangeLength)")
+//    }
 }
 
 public class Day05: Challenge {
@@ -117,9 +100,6 @@ public class Day05: Challenge {
         let lookups = chunks.map { chunk in
             let ranges = chunk.components(separatedBy: "\n").dropFirst().map { rangeLine in
                 let numbers = rangeLine.components(separatedBy: " ").map({Int($0) ?? -1}).filter({$0 != -1})
-                if numbers.count != 3 {
-                    print("Invalid range line: \(rangeLine)")
-                }
                 return Day05Range(destinationRangeStart: numbers[0], sourceRangeStart: numbers[1], rangeLength: numbers[2])
             }
             return Day05Lookup(ranges: ranges)
@@ -133,13 +113,13 @@ public class Day05: Challenge {
 
     public func run(with input: [String], also rawInput: String) {
         guard let almanac = convertToAlmanac(from: input, also: rawInput) else { return }
-        // almanac.printDebugDescription()
-        let x = almanac.pairs.map { pair in
-            pair.values.map { value in
-                almanac.convert(sourceNumber: value)
+        
+        var results = [Int]()
+        for pair in almanac.pairs {
+            for value in pair.values {
+                results.append(almanac.convert(sourceNumber: value))
             }
         }
-        let lowestResult = x.joined().min() ?? -1
-        print("Lowest result: \(lowestResult)")
+        print(results.min() ?? -1)
     }
 }
