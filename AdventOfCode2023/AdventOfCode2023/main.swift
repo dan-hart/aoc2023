@@ -17,5 +17,5 @@ print("\(challenge.name):")
 challenge.run(with: input, also: rawInput)
 
 print(":done")
-// _ = readLine()
+_ = readLine()
 

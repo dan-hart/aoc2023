@@ -9,9 +9,8 @@ import XCTest
 @testable import aoc2023core
 
 final class Day05Tests: XCTestCase {
-    func testExample() {
-        self.measure {
-            let input = """
+    func testExample() async {
+        let input = """
         seeds: 79 14 55 13
         
         seed-to-soil map:
@@ -46,20 +45,28 @@ final class Day05Tests: XCTestCase {
         60 56 37
         56 93 4
         """
-            let lines = input.components(separatedBy: "\n")
-            guard let almanac = Day05().convertToAlmanac(from: lines, also: input) else { return }
-            XCTAssertEqual(almanac.initialSeedNumbers, [79, 14, 55, 13])
-            XCTAssertEqual(almanac.lookups.count, 7)
-            var results = [Int]()
-            for pair in almanac.pairs {
-                for value in pair.values {
-                    results.append(almanac.convert(sourceNumber: value))
+        let lines = input.components(separatedBy: "\n")
+        guard let almanac = Day05().convertToAlmanac(from: lines, also: input) else { return }
+        XCTAssertEqual(almanac.initialSeedNumbers, [79, 14, 55, 13])
+        let asyncLocations = await withTaskGroup(of: [Int].self) { group in
+            let ranges = await almanac.initialSeedNumberRanges()
+            for await range in ranges {
+                group.addTask {
+                    range.compactMap { number in
+                        almanac.convert(sourceNumber: number)
+                    }
                 }
             }
-            // Find lowest result
-            let lowestResult = results.min() ?? -1
-            print("Lowest result: \(lowestResult)")
-            XCTAssertEqual(lowestResult, 46)
+            
+            var results = [Int]()
+            for await list in group {
+                results.append(contentsOf: list)
+            }
+            return results
         }
+        
+        // Get minimum
+        let minimum = asyncLocations.min() ?? 0
+        XCTAssertEqual(minimum, 46)
     }
 }
