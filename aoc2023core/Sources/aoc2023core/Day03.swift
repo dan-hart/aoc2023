@@ -86,7 +86,7 @@ public class Day03: Challenge {
         return characterMap
     }
     
-    public func run(with input: [String]) {
+    public func run(with input: [String], also rawInput: String) {
         let map = Day03().convertToCharacterMap(from: input)
         let total = Day03().sumPartNumbers(with: map)
         print(total)

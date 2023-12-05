@@ -146,7 +146,7 @@ public class Day02: Challenge {
         return Day02Game(number: gameNumber, sets: setObjects)
     }
     
-    public func run(with input: [String]) {
+    public func run(with input: [String], also rawInput: String) {
         let games = input.map { line in
             parseToGame(from: line)
         }

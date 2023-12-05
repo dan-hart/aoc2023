@@ -80,7 +80,7 @@ public class Day04: Challenge {
         }
     }
     
-    public func run(with input: [String]) {
+    public func run(with input: [String], also rawInput: String) {
         var cards = input.map { line in
             parseCard(line)
         }

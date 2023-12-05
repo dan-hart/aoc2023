@@ -13,7 +13,7 @@ public class Day01: Challenge {
     
     public init() {}
     
-    public func run(with input: [String]) {
+    public func run(with input: [String], also rawInput: String) {
         let digits = input.map { line in
             let number = convertToNumber(using: "\(line)")
             return number

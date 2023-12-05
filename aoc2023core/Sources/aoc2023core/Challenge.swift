@@ -9,13 +9,17 @@ import Foundation
 
 public protocol Challenge {
     var name: String { get set }
-    func run(with input: [String])
+    func run(with input: [String], also rawInput: String)
 }
 
 public extension Challenge {
-    func loadInput() -> [String] {
+    func loadInputLines() -> [String] {
         return try! String(contentsOfFile: ("~/input.txt" as NSString).expandingTildeInPath)
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .components(separatedBy: .newlines)
+    }
+    
+    func loadRawInput() -> String {
+        return try! String(contentsOfFile: ("~/input.txt" as NSString).expandingTildeInPath)
     }
 }

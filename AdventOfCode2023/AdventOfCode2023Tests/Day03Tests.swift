@@ -8,26 +8,7 @@
 import XCTest
 @testable import aoc2023core
 
-final class Day03Tests: XCTestCase {
-    func testExample01() {
-        let input = """
-        467..114..
-        ...*......
-        ..35..633.
-        ......#...
-        617*......
-        .....+.58.
-        ..592.....
-        ......755.
-        ...$.*....
-        .664.598..
-        """
-        let lines = input.components(separatedBy: .newlines)
-        let map = Day03().convertToCharacterMap(from: lines)
-        let total = Day03().sumPartNumbers(with: map)
-        XCTAssertTrue(true)
-    }
-    
+final class Day03Tests: XCTestCase {    
     func testExample02() {
         let input = """
         467..114..

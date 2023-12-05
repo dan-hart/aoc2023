@@ -8,12 +8,13 @@
 import Foundation
 import aoc2023core
 
-let challenge = Day04()
+let challenge = Day05()
 
-let input = challenge.loadInput()
+let input = challenge.loadInputLines()
+let rawInput = challenge.loadRawInput()
 
 print("\(challenge.name):")
-challenge.run(with: input)
+challenge.run(with: input, also: rawInput)
 
 print(":done")
 _ = readLine()
