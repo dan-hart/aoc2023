@@ -15,7 +15,7 @@ public class Day07: Challenge {
         case A = 14
         case K = 13
         case Q = 12
-        case J = 11
+        
         case T = 10
         case c9 = 9
         case c8 = 8
@@ -25,6 +25,9 @@ public class Day07: Challenge {
         case c4 = 4
         case c3 = 3
         case c2 = 2
+        
+        // Part 02
+        case J = 1
         
         public init(from: String) {
             switch from {
@@ -116,7 +119,7 @@ public class Day07: Challenge {
             })
         }
         
-        public var type: HandType {
+        public func part01Type() -> HandType {
             let grouped = Dictionary(grouping: cards, by: { $0 })
             if grouped.count == 1 { return .fiveOfAKind }
             if grouped.count == 2 {
@@ -132,6 +135,56 @@ public class Day07: Challenge {
             }
             return .highCard
         }
+        
+        public var type: HandType {
+            let part01Type = self.part01Type()
+            if cards.contains(.J) {
+                let grouped = Dictionary(grouping: cards, by: { $0 })
+                let jGroup = grouped[.J]!
+                switch part01Type {
+                case .fiveOfAKind:
+                    return .fiveOfAKind
+                case .fourOfAKind:
+                    if jGroup.count == 1 {
+                        return .fiveOfAKind
+                    } else {
+                        return .fourOfAKind
+                    }
+                case .fullHouse:
+                    return .fiveOfAKind
+                case .threeOfAKind:
+                    if jGroup.count == 3 {
+                        return .fourOfAKind
+                    } else if jGroup.count == 2 {
+                        return .fiveOfAKind
+                    } else {
+                        return .fourOfAKind
+                    }
+                case .twoPair:
+                    if jGroup.count == 2 {
+                        return .fourOfAKind
+                    } else if jGroup.count == 1 {
+                        return .fullHouse
+                    } else {
+                        print("twoPair with jGroup.count \(jGroup.count)")
+                    }
+                case .onePair:
+                    if jGroup.count == 1 {
+                        return .threeOfAKind
+                    } else if jGroup.count == 2 {
+                        return .threeOfAKind
+                    } else {
+                        print("onePair with jGroup.count \(jGroup.count)")
+                    }
+                case .highCard:
+                    return .onePair
+                }
+                print("\(part01Type) with jGroup.count \(jGroup.count)")
+                return .fiveOfAKind
+            } else {
+                return part01Type
+            }
+        }
     }
     
     public func run(with input: [String], also rawInput: String) {
@@ -139,15 +192,15 @@ public class Day07: Challenge {
             Hand(line: line)
         }
         print("Result: \(hands.scorePart01())")
-        let sortedHands = hands.sorted { lhs, rhs in
-            lhs < rhs
-        }
+        let sortedHands = hands.sorted()
         var i = 0
         for hand in sortedHands {
             let rank = i + 1
             let bid = hand.bid
             let wins = rank * bid
-            print("Hand \(hand.cards.map({$0.asString}).joined()) ranks \(rank) and bid \(bid). Wins: \(wins)")
+            if hand.cards.contains(.J) {
+                print("Hand \(hand.cards.map({$0.asString}).joined()) \(hand.part01Type()) -> (\(hand.type)) ranks \(rank) and bid \(bid). Wins: \(wins)")
+            }
             i += 1
         }
     }

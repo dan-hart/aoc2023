@@ -17,13 +17,24 @@ final class Day07Tests: XCTestCase {
         XCTAssertEqual(Day07.Hand(line: "23432 1").type, Day07.HandType.twoPair)
         XCTAssertEqual(Day07.Hand(line: "A23A4 1").type, Day07.HandType.onePair)
         XCTAssertEqual(Day07.Hand(line: "23456 1").type, Day07.HandType.highCard)
+        
+        // Part 02
+        XCTAssertEqual(Day07.Hand(line: "KTJJT 1").type, Day07.HandType.fourOfAKind)
+        XCTAssertEqual(Day07.Hand(line: "KK677 1").type, Day07.HandType.twoPair)
+        XCTAssertEqual(Day07.Hand(line: "T55J5 1").type, Day07.HandType.fourOfAKind)
+        XCTAssertEqual(Day07.Hand(line: "QQQJA 1").type, Day07.HandType.fourOfAKind)
+        XCTAssertEqual(Day07.Hand(line: "QQQJA 1").type, Day07.HandType.fourOfAKind)
     }
     
     func testHandComparison() {
         XCTAssertTrue(Day07.Hand(line: "AAAAA 1") > Day07.Hand(line: "AA8AA 1"))
         XCTAssertTrue(Day07.Hand(line: "33332 1") > Day07.Hand(line: "2AAAA 1"))
         XCTAssertTrue(Day07.Hand(line: "77888 1") > Day07.Hand(line: "77788 1"))
-        XCTAssertTrue(Day07.Hand(line: "K2AT3 1") > Day07.Hand(line: "Q54J6 1"))
+        XCTAssertTrue(Day07.Hand(line: "K2AT3 1") < Day07.Hand(line: "Q54J6 1"))
+        XCTAssertTrue(Day07.Hand(line: "KTJJT 1") > Day07.Hand(line: "QQQJA 1"))
+        XCTAssertTrue(Day07.Hand(line: "QQQJA 1") > Day07.Hand(line: "T55J5 1"))
+        XCTAssertTrue(Day07.Hand(line: "T55J5 1") > Day07.Hand(line: "KK677 1"))
+        XCTAssertTrue(Day07.Hand(line: "KK677 1") > Day07.Hand(line: "32T3K 1"))
     }
     
     func testExample() {
@@ -35,6 +46,6 @@ final class Day07Tests: XCTestCase {
         QQQJA 483
         """
         let hands = input.components(separatedBy: "\n").map { Day07.Hand(line: $0) }
-        XCTAssertEqual(hands.scorePart01(), 6440)
+        XCTAssertEqual(hands.scorePart01(), 5905)
     }
 }
