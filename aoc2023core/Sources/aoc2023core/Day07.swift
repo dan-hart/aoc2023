@@ -142,45 +142,14 @@ public class Day07: Challenge {
                 let grouped = Dictionary(grouping: cards, by: { $0 })
                 let jGroup = grouped[.J]!
                 switch part01Type {
-                case .fiveOfAKind:
-                    return .fiveOfAKind
-                case .fourOfAKind:
-                    if jGroup.count == 1 {
-                        return .fiveOfAKind
-                    } else {
-                        return .fourOfAKind
-                    }
-                case .fullHouse:
-                    return .fiveOfAKind
-                case .threeOfAKind:
-                    if jGroup.count == 3 {
-                        return .fourOfAKind
-                    } else if jGroup.count == 2 {
-                        return .fiveOfAKind
-                    } else {
-                        return .fourOfAKind
-                    }
-                case .twoPair:
-                    if jGroup.count == 2 {
-                        return .fourOfAKind
-                    } else if jGroup.count == 1 {
-                        return .fullHouse
-                    } else {
-                        print("twoPair with jGroup.count \(jGroup.count)")
-                    }
-                case .onePair:
-                    if jGroup.count == 1 {
-                        return .threeOfAKind
-                    } else if jGroup.count == 2 {
-                        return .threeOfAKind
-                    } else {
-                        print("onePair with jGroup.count \(jGroup.count)")
-                    }
-                case .highCard:
-                    return .onePair
+                case .highCard: return .onePair
+                case .onePair: return .threeOfAKind
+                case .twoPair: return (jGroup.count == 2 ? .fourOfAKind : .fullHouse)
+                case .threeOfAKind: return .fourOfAKind
+                case .fullHouse: return .fiveOfAKind
+                case .fourOfAKind: return .fiveOfAKind
+                case .fiveOfAKind: return .fiveOfAKind
                 }
-                print("\(part01Type) with jGroup.count \(jGroup.count)")
-                return .fiveOfAKind
             } else {
                 return part01Type
             }
