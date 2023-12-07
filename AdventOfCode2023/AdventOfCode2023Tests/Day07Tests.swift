@@ -23,6 +23,7 @@ final class Day07Tests: XCTestCase {
         XCTAssertTrue(Day07.Hand(line: "AAAAA 1") > Day07.Hand(line: "AA8AA 1"))
         XCTAssertTrue(Day07.Hand(line: "33332 1") > Day07.Hand(line: "2AAAA 1"))
         XCTAssertTrue(Day07.Hand(line: "77888 1") > Day07.Hand(line: "77788 1"))
+        XCTAssertTrue(Day07.Hand(line: "K2AT3 1") > Day07.Hand(line: "Q54J6 1"))
     }
     
     func testExample() {

@@ -44,6 +44,24 @@ public class Day07: Challenge {
             default: fatalError("Invalid card string")
             }
         }
+        
+        public var asString: String {
+            switch self {
+            case .A: return "A"
+            case .K: return "K"
+            case .Q: return "Q"
+            case .J: return "J"
+            case .T: return "T"
+            case .c9: return "9"
+            case .c8: return "8"
+            case .c7: return "7"
+            case .c6: return "6"
+            case .c5: return "5"
+            case .c4: return "4"
+            case .c3: return "3"
+            case .c2: return "2"
+            }
+        }
     }
     
     public enum HandType: Int, CaseIterable {
@@ -61,19 +79,25 @@ public class Day07: Challenge {
             if lhs.type.rawValue < rhs.type.rawValue {
                 return true
             }
+            if lhs.type.rawValue > rhs.type.rawValue {
+                return false
+            }
             if lhs.type.rawValue == rhs.type.rawValue {
-                for (lhsIndex, lhsCard) in lhs.cards.enumerated() {
-                    if lhsCard.rawValue < rhs.cards[lhsIndex].rawValue {
+                for i in 0..<lhs.cards.count {
+                    if lhs.cards[i].rawValue == rhs.cards[i].rawValue {
+                        continue
+                    }
+                    if lhs.cards[i].rawValue > rhs.cards[i].rawValue {
+                        return false
+                    }
+                    if lhs.cards[i].rawValue < rhs.cards[i].rawValue {
                         return true
                     }
                 }
                 return false
-            }
-            if lhs.type.rawValue > rhs.type.rawValue {
+            } else {
                 return false
             }
-            
-            return false
         }
         
         var cards: [Card]
@@ -115,17 +139,32 @@ public class Day07: Challenge {
             Hand(line: line)
         }
         print("Result: \(hands.scorePart01())")
+        let sortedHands = hands.sorted { lhs, rhs in
+            lhs < rhs
+        }
+        var i = 0
+        for hand in sortedHands {
+            let rank = i + 1
+            let bid = hand.bid
+            let wins = rank * bid
+            print("Hand \(hand.cards.map({$0.asString}).joined()) ranks \(rank) and bid \(bid). Wins: \(wins)")
+            i += 1
+        }
     }
 }
 
 extension Array where Element == Day07.Hand {
     public func scorePart01() -> Int {
-        let sorted = self.sorted { lhs, rhs in
-            return lhs < rhs
-        }
+        let sorted = self.sorted()
         var winnings = [Int]()
-        for rank in 0..<sorted.count {
-            winnings.append(sorted[rank].bid * rank + 1)
+        var i = 0
+        for hand in sorted {
+            let rank = i + 1
+            let bid = hand.bid
+            let wins = rank * bid
+            winnings.append(wins)
+            
+            i += 1
         }
         return winnings.reduce(0, +)
     }
