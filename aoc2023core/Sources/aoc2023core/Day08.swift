@@ -42,31 +42,19 @@ public class Day08: Challenge {
             return stepCount
         }
         
-        // Part 02
-        public func calculateSteps() -> Int {
-            let keysThatEndInA = nodes.filter({ $0.key.last == "A" }).map({ $0.key })
-            
-            var currentKeys = keysThatEndInA
+        public func calculateSteps(for key: String) -> Int {
+            var nodeKey = key
             var stepCount = 0
             var instructionIndex = 0
-            while currentKeys.filter({ $0.last == "Z" }).count != currentKeys.count {
-                if currentKeys.filter({ $0.last == "Z" }).count > 1 {
-                    // format step count with commas
-                    let formatter = NumberFormatter()
-                    formatter.numberStyle = .decimal
-                    let stepCountString = formatter.string(from: NSNumber(value: stepCount))!
-                    print("stepCount: \(stepCountString)")
-                    print("zCount: \(currentKeys.filter({ $0.last == "Z" }).count) of total \(currentKeys.count)")
-                }
-                
+            while nodeKey.last != "Z" {
                 let instruction = instructions[instructionIndex]
-                let nodes = self.nodes.filter({ currentKeys.contains($0.key) })
+                let node = nodes.first(where: { $0.key == nodeKey })!
                 
                 switch instruction.uppercased() {
                 case "R":
-                    currentKeys = nodes.map({ $0.rightKey })
+                    nodeKey = node.rightKey
                 case "L":
-                    currentKeys = nodes.map({ $0.leftKey })
+                    nodeKey = node.leftKey
                 default: break
                 }
                 
@@ -79,6 +67,15 @@ public class Day08: Challenge {
                 stepCount += 1
             }
             return stepCount
+        }
+        
+        // Part 02
+        public func calculateSteps() -> Int {
+            let currentKeys: Set<String> = Set(nodes.filter({ $0.key.last == "A" }).map({ $0.key }))
+            let results = currentKeys.map { key in
+                calculateSteps(for: key)
+            }
+            return Math.leastCommonMultiple(for: results)
         }
     }
     
