@@ -8,7 +8,7 @@
 import Foundation
 import aoc2023core
 
-let challenge = Day07()
+let challenge = Day08()
 
 let input = challenge.loadInputLines()
 let rawInput = challenge.loadRawInput()

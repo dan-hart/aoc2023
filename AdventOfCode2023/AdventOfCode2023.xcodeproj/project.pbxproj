@@ -19,6 +19,7 @@
 		5257E4C22B1BFCB000FF865F /* Day02Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5257E4C12B1BFCB000FF865F /* Day02Tests.swift */; };
 		5257E4C42B1CE21700FF865F /* Day03Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5257E4C32B1CE21700FF865F /* Day03Tests.swift */; };
 		5257E4C82B1E438800FF865F /* Day04Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5257E4C72B1E438800FF865F /* Day04Tests.swift */; };
+		52C742EC2B238A74002C04BB /* Day08Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C742EB2B238A74002C04BB /* Day08Tests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,6 +49,7 @@
 		5257E4C12B1BFCB000FF865F /* Day02Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day02Tests.swift; sourceTree = "<group>"; };
 		5257E4C32B1CE21700FF865F /* Day03Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day03Tests.swift; sourceTree = "<group>"; };
 		5257E4C72B1E438800FF865F /* Day04Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day04Tests.swift; sourceTree = "<group>"; };
+		52C742EB2B238A74002C04BB /* Day08Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day08Tests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				523E58062B1F7D6C001D247E /* Day05Tests.swift */,
 				525413892B20B75F008B5DA4 /* Day06Tests.swift */,
 				5254138B2B2243F8008B5DA4 /* Day07Tests.swift */,
+				52C742EB2B238A74002C04BB /* Day08Tests.swift */,
 			);
 			path = AdventOfCode2023Tests;
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 				5212D1362B1BD41300FBB209 /* AdventOfCode2023Tests.swift in Sources */,
 				5254138C2B2243F8008B5DA4 /* Day07Tests.swift in Sources */,
 				5257E4C22B1BFCB000FF865F /* Day02Tests.swift in Sources */,
+				52C742EC2B238A74002C04BB /* Day08Tests.swift in Sources */,
 				5254138A2B20B75F008B5DA4 /* Day06Tests.swift in Sources */,
 				5212D13B2B1BD43600FBB209 /* Day01Tests.swift in Sources */,
 				5257E4C42B1CE21700FF865F /* Day03Tests.swift in Sources */,
